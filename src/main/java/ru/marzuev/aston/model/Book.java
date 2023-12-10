@@ -7,18 +7,21 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "book_id")
     private long id;
     @Column(nullable = false)
     private String title;
     private String description;
     @Column(nullable = false)
     private LocalDate release;
-    @Transient
+    @ManyToMany(mappedBy = "listBooks")
     private List<Author> listAuthors;
-    @Transient
+    @OneToMany
+    @JoinColumn(name = "comment_id")
     private List<Comment> listComments;
 
     public Book() {

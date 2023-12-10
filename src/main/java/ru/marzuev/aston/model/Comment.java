@@ -4,9 +4,11 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private long id;
     @Column(nullable = false, length = 1024)
     private String content;

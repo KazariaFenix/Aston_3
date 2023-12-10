@@ -7,15 +7,19 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "authors")
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "author_id")
     private long id;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(name = "date_born", nullable = false)
     private LocalDate dateBorn;
-    @Transient
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "authors_books", joinColumns = @JoinColumn(name = "author_id", referencedColumnName = "author_id"),
+    inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "book_id"))
     private List<Book> listBooks;
 
     public Author() {
