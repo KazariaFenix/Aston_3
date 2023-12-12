@@ -37,7 +37,6 @@ public class CommentServiceImpl implements CommentService {
         comment.setBook(book);
 
         Comment saveComment = commentRepository.save(comment);
-        //saveComment.setBook(book);
 
         return commentMapper.toCommentDto(saveComment);
     }

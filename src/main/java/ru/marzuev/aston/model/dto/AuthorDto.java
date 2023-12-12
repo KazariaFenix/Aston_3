@@ -1,6 +1,5 @@
 package ru.marzuev.aston.model.dto;
 
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -8,12 +7,12 @@ import java.util.Objects;
 public class AuthorDto {
     private String name;
     private LocalDate dateBorn;
-    private List<String> booksList;
+    private List<BookDto> booksList;
 
     public AuthorDto() {
     }
 
-    public AuthorDto(String name, LocalDate dateBorn, List<String> booksList) {
+    public AuthorDto(String name, LocalDate dateBorn, List<BookDto> booksList) {
         this.name = name;
         this.dateBorn = dateBorn;
         this.booksList = booksList;
@@ -35,11 +34,11 @@ public class AuthorDto {
         this.dateBorn = dateBorn;
     }
 
-    public List<String> getBooksList() {
+    public List<BookDto> getBooksList() {
         return booksList;
     }
 
-    public void setBooksList(List<String> booksList) {
+    public void setBooksList(List<BookDto> booksList) {
         this.booksList = booksList;
     }
 
@@ -62,7 +61,7 @@ public class AuthorDto {
         return "AuthorDto{" +
                 "name='" + name + '\'' +
                 ", dateBorn=" + dateBorn +
-                ", booksList=" + booksList +
+                ", booksSet=" + booksList +
                 '}';
     }
 }

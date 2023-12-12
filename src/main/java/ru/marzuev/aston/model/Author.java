@@ -1,6 +1,11 @@
 package ru.marzuev.aston.model;
 
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.mapstruct.Named;
+import org.springframework.data.jpa.repository.EntityGraph;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -11,15 +16,15 @@ import java.util.Objects;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "author_id")
     private long id;
     @Column(nullable = false)
     private String name;
     @Column(name = "date_born", nullable = false)
     private LocalDate dateBorn;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "authors_books", joinColumns = @JoinColumn(name = "author_id", referencedColumnName = "author_id"),
-    inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "book_id"))
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JoinTable(name = "authors_books", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
     private List<Book> listBooks;
 
     public Author() {
@@ -90,7 +95,7 @@ public class Author {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", dateBorn=" + dateBorn +
-                ", listBooks=" + listBooks +
+                ", ListBooks=" + listBooks +
                 '}';
     }
 }

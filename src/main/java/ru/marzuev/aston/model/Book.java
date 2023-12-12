@@ -1,6 +1,9 @@
 package ru.marzuev.aston.model;
 
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -11,17 +14,17 @@ import java.util.Objects;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id")
     private long id;
     @Column(nullable = false)
     private String title;
     private String description;
     @Column(nullable = false)
     private LocalDate release;
-    @ManyToMany(mappedBy = "listBooks")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listBooks", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Author> listAuthors;
-    @OneToMany
-    @JoinColumn(name = "comment_id")
+    @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Comment> listComments;
 
     public Book() {

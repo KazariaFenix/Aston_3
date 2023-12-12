@@ -28,7 +28,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto addAuthor(AuthorDto authorDto) {
-        Author author = authorMapper.toAuthor(0, authorDto);
+        Author author = authorMapper.toAuthor(authorDto);
 
         return authorMapper.toAuthorDto(repository.save(author));
     }
@@ -36,7 +36,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public AuthorDto updateAuthor(AuthorDto authorDto, long authorId) {
         getAuthorById(authorId);
-        Author author = repository.save(authorMapper.toAuthor(authorId, authorDto));
+        Author author = repository.save(authorMapper.toAuthor(authorDto));
 
         return authorMapper.toAuthorDto(author);
     }
@@ -56,10 +56,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<AuthorDto> getAuthors() {
-        Map<Author, List<Book>> authorWithBooks = repository.getAuthorsWithBooks();
-        return authorWithBooks.entrySet().stream()
-                .peek(entry -> entry.getKey().setListBooks(entry.getValue()))
-                .map(entry -> authorMapper.toAuthorDto(entry.getKey()))
+        List<Author> authors = repository.findAll();
+        return authors.stream()
+                .map(author -> authorMapper.toAuthorDto(author))
                 .collect(Collectors.toList());
     }
 }

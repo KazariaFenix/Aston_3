@@ -8,12 +8,11 @@ import java.util.Objects;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
     private long id;
     @Column(nullable = false, length = 1024)
     private String content;
     @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "book_id", nullable = false)
+    @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false)
     private Book book;
 
     public Comment() {
