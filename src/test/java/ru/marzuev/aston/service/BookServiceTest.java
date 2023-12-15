@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 import ru.marzuev.aston.model.Author;
 import ru.marzuev.aston.model.Book;
 import ru.marzuev.aston.model.dto.AuthorDto;
@@ -80,10 +81,10 @@ class BookServiceTest {
                 .when(authorRepository.findById(author.getId()))
                 .thenReturn(Optional.empty());
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e = assertThrows(ResponseStatusException.class,
                 () -> bookService.addBook(bookDto, List.of(author.getId())));
 
-        assertThat(e.getMessage(), equalTo("Author Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Author Not Found\""));
         Mockito.verify(authorRepository, Mockito.times(1))
                 .findById(author.getId());
     }
@@ -127,10 +128,10 @@ class BookServiceTest {
                 .when(bookRepository.findById(book.getId()))
                 .thenReturn(Optional.empty());
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e = assertThrows(ResponseStatusException.class,
                 () -> bookService.updateBook(bookDto, book.getId()));
 
-        assertThat(e.getMessage(), equalTo("Book Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Book Not Found\""));
         Mockito.verify(bookRepository, Mockito.times(1))
                 .findById(book.getId());
     }
@@ -159,9 +160,9 @@ class BookServiceTest {
                 .when(bookRepository.findById(bookId))
                 .thenReturn(Optional.empty());
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e = assertThrows(ResponseStatusException.class,
                 () -> bookService.deleteBook(bookId));
-        assertThat(e.getMessage(), equalTo("Book Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Book Not Found\""));
         Mockito.verify(bookRepository, Mockito.times(1))
                 .findById(bookId);
     }
@@ -193,9 +194,9 @@ class BookServiceTest {
                 .when(bookRepository.findById(bookId))
                 .thenReturn(Optional.empty());
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e = assertThrows(ResponseStatusException.class,
                 () -> bookService.getBookById(bookId));
-        assertThat(e.getMessage(), equalTo("Book Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Book Not Found\""));
         Mockito.verify(bookRepository, Mockito.times(1))
                 .findById(bookId);
     }
@@ -234,9 +235,9 @@ class BookServiceTest {
                 .doReturn(Optional.empty())
                 .when(authorRepository).findById(authorId);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e = assertThrows(ResponseStatusException.class,
                 () -> bookService.getBooksByAuthorId(authorId));
-        assertThat(e.getMessage(), equalTo("Author Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Author Not Found\""));
         Mockito.verify(authorRepository, Mockito.times(1))
                 .findById(authorId);
     }

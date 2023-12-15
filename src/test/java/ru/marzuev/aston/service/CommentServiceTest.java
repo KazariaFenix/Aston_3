@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 import ru.marzuev.aston.model.Book;
 import ru.marzuev.aston.model.Comment;
 import ru.marzuev.aston.model.dto.CommentDto;
@@ -74,9 +75,9 @@ class CommentServiceTest {
                 .doReturn(Optional.empty())
                 .when(bookRepository).findById(bookId);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e = assertThrows(ResponseStatusException.class,
                 () -> commentService.addComment(commentDto, bookId));
-        assertThat(e.getMessage(), equalTo("Book Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Book Not Found\""));
         Mockito.verify(bookRepository, Mockito.times(1)).findById(bookId);
     }
 
@@ -117,9 +118,9 @@ class CommentServiceTest {
                 .when(commentRepository.findById(commentId))
                 .thenReturn(Optional.empty());
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e = assertThrows(ResponseStatusException.class,
                 () -> commentService.updateComment(commentDto, commentId));
-        assertThat(e.getMessage(), equalTo("Comment Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Comment Not Found\""));
         Mockito.verify(commentRepository, Mockito.times(1)).findById(commentId);
     }
 
@@ -143,9 +144,9 @@ class CommentServiceTest {
         Mockito
                 .doReturn(Optional.empty())
                 .when(commentRepository).findById(commentId);
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e = assertThrows(ResponseStatusException.class,
                 () -> commentService.deleteComment(commentId));
-        assertThat(e.getMessage(), equalTo("Comment Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Comment Not Found\""));
         Mockito.verify(commentRepository, Mockito.times(1)).findById(commentId);
     }
 
@@ -184,9 +185,9 @@ class CommentServiceTest {
                 .when(bookRepository.findById(bookId))
                 .thenReturn(Optional.empty());
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e = assertThrows(ResponseStatusException.class,
                 () -> commentService.getCommentsByBookId(bookId));
-        assertThat(e.getMessage(), equalTo("Book Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Book Not Found\""));
         Mockito.verify(bookRepository, Mockito.times(1)).findById(bookId);
     }
 }

@@ -1,7 +1,9 @@
 package ru.marzuev.aston.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.marzuev.aston.model.dto.CommentDto;
 import ru.marzuev.aston.service.CommentService;
 
@@ -23,7 +25,7 @@ public class CommentController {
     public CommentDto postComment(@RequestBody CommentDto commentDto,
                                    @RequestParam(defaultValue = "0") long bookId) throws SQLException {
         if (bookId == 0) {
-            throw new IllegalArgumentException("Book Id Invalid");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book Id Incorrect");
         }
         return commentService.addComment(commentDto, bookId);
     }

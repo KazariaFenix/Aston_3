@@ -1,7 +1,9 @@
 package ru.marzuev.aston.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ru.marzuev.aston.model.Author;
 import ru.marzuev.aston.model.Book;
 import ru.marzuev.aston.model.dto.AuthorDto;
@@ -35,7 +37,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto updateAuthor(AuthorDto authorDto, long authorId) {
-        repository.findById(authorId).orElseThrow(() -> new IllegalArgumentException("Author Not Found"));
+        repository.findById(authorId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Author Not Found"));
         Author author = repository.save(authorMapper.toAuthor(authorDto));
 
         return authorMapper.toAuthorDto(author);
@@ -43,13 +46,15 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void deleteAuthor(long authorId) {
-        repository.findById(authorId).orElseThrow(() -> new IllegalArgumentException("Author Not Found"));
+        repository.findById(authorId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Author Not Found"));
         repository.deleteById(authorId);
     }
 
     @Override
     public AuthorDto getAuthorById(long authorId) {
-        Author author = repository.findById(authorId).orElseThrow(() -> new IllegalArgumentException());
+        Author author = repository.findById(authorId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Author Not Found"));
 
         return authorMapper.toAuthorDto(author);
     }

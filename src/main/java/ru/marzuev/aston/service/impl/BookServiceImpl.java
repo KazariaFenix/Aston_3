@@ -1,7 +1,9 @@
 package ru.marzuev.aston.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import ru.marzuev.aston.model.Author;
 import ru.marzuev.aston.model.Book;
 import ru.marzuev.aston.model.dto.BookDto;
@@ -38,7 +40,7 @@ public class BookServiceImpl implements BookService {
 
         for (Long authorId : authorsList) {
             Author author = authorRepository.findById(authorId).orElseThrow(
-                    () -> new IllegalArgumentException("Author Not Found"));
+                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Author Not Found"));
             authors.add(author);
         }
         book.setListAuthors(authors);
@@ -50,7 +52,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto updateBook(BookDto bookDto, long bookId) {
-        Book oldBook = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Book Not Found"));
+        Book oldBook = bookRepository.findById(bookId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found"));
         Book updateBook = bookMapper.toBook(bookDto);
 
         updateBook.setListAuthors(oldBook.getListAuthors());
@@ -61,13 +64,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBook(long bookId) {
-        bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Book Not Found"));
+        bookRepository.findById(bookId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found"));
         bookRepository.deleteBooksById(bookId);
     }
 
     @Override
     public BookDto getBookById(long bookId) {
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Book Not Found"));
+        Book book = bookRepository.findById(bookId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found"));
 
         return bookMapper.toBookDto(book);
     }
@@ -75,7 +80,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> getBooksByAuthorId(long authorId) {
         Author author = authorRepository.findById(authorId).orElseThrow(
-                () -> new IllegalArgumentException("Author Not Found"));
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Author Not Found"));
         List<Book> books = bookRepository.findBooksByAuthorId(author.getId());
 
         return books.stream()

@@ -3,8 +3,11 @@ package ru.marzuev.aston.controller;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.marzuev.aston.model.dto.BookDto;
 import ru.marzuev.aston.service.BookService;
 
@@ -25,7 +28,7 @@ public class BookController {
     public BookDto postBook(@RequestBody BookDto bookDto,
                             @RequestParam(defaultValue = "null") List<Long> authors) throws SQLException {
         if (authors == null) {
-            throw new IllegalArgumentException("Authors Id Invalid");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Authors Id Incorrect");
         }
         return bookService.addBook(bookDto, authors);
     }
@@ -48,7 +51,7 @@ public class BookController {
     @GetMapping
     public List<BookDto> getBooksByAuthorId(@RequestParam(defaultValue = "0") long authorId) throws SQLException {
         if (authorId == 0) {
-            throw new IllegalArgumentException("Author Id Invalid");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Author Id Incorrect");
         }
         return bookService.getBooksByAuthorId(authorId);
     }

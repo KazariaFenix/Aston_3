@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 import ru.marzuev.aston.model.Author;
 import ru.marzuev.aston.model.Book;
 import ru.marzuev.aston.model.dto.AuthorDto;
@@ -95,9 +96,9 @@ class AuthorServiceTest {
                 .when(authorRepository.findById(author.getId()))
                 .thenReturn(Optional.empty());
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e = assertThrows(ResponseStatusException.class,
                 () -> authorService.updateAuthor(authorDto, 1));
-        assertThat(e.getMessage(), equalTo("Author Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Author Not Found\""));
         Mockito.verify(authorRepository, Mockito.times(1)).findById(1L);
     }
 
@@ -122,10 +123,10 @@ class AuthorServiceTest {
         Mockito
                 .doReturn(Optional.empty())
                 .when(authorRepository).findById(newAuthor.getId());
-        IllegalArgumentException e  = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e  = assertThrows(ResponseStatusException.class,
                 () -> authorService.deleteAuthor(newAuthor.getId()));
 
-        assertThat(e.getMessage(), equalTo("Author Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Author Not Found\""));
         Mockito.verify(authorRepository, Mockito.times(1)).findById(newAuthor.getId());
     }
 
@@ -155,10 +156,10 @@ class AuthorServiceTest {
                 .when(authorRepository.findById(newAuthor.getId()))
                 .thenReturn(Optional.empty());
 
-        IllegalArgumentException e  = assertThrows(IllegalArgumentException.class,
+        ResponseStatusException e  = assertThrows(ResponseStatusException.class,
                 () -> authorService.deleteAuthor(newAuthor.getId()));
 
-        assertThat(e.getMessage(), equalTo("Author Not Found"));
+        assertThat(e.getMessage(), equalTo("404 NOT_FOUND \"Author Not Found\""));
         Mockito.verify(authorRepository, Mockito.times(1)).findById(newAuthor.getId());
     }
 
