@@ -9,7 +9,6 @@ import ru.marzuev.aston.config.PersistenceConfigForTest;
 import ru.marzuev.aston.model.Author;
 import ru.marzuev.aston.model.Book;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +43,7 @@ class BookRepositoryTest {
         author.setListBooks(new ArrayList<>());
         author = authorRepository.save(author);
     }
+
     @AfterEach
     void afterEach() {
         authorRepository.deleteById(author.getId());
@@ -92,9 +92,7 @@ class BookRepositoryTest {
     @Test
     void getBookById_whenNormal_thenReturnBook() {
         final Book book = new Book(0, "Book", "Description", LocalDate.now());
-
         final Book saveBook = bookRepository.save(book);
-
         final Book findBook = bookRepository.findById(saveBook.getId()).orElseThrow();
 
         assertEquals(saveBook.getId(), findBook.getId());
@@ -119,7 +117,7 @@ class BookRepositoryTest {
 
         List<Book> books = bookRepository.findBooksByAuthorId(author.getId());
 
-        assertEquals(books.size(), 2);
+        assertEquals(2, books.size());
 
 
     }

@@ -11,12 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import ru.marzuev.aston.model.dto.AuthorDto;
 import ru.marzuev.aston.service.AuthorService;
 
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,10 +84,11 @@ class AuthorControllerTest {
         Mockito
                 .doReturn(authorDto)
                 .when(service).getAuthorById(1L);
+
         String response = mvc.perform(MockMvcRequestBuilders.get("/authors/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .characterEncoding(StandardCharsets.UTF_8))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .characterEncoding(StandardCharsets.UTF_8))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()

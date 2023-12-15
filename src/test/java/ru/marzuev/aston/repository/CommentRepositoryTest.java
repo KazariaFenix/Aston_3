@@ -15,13 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static ru.marzuev.aston.config.PersistenceConfigForTest.postgres;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {PersistenceConfigForTest.class, AuthorRepository.class, BookRepository.class,
-CommentRepository.class})
-public class CommentRepositoryTest {
+        CommentRepository.class})
+class CommentRepositoryTest {
     @Autowired
     private AuthorRepository authorRepository;
     @Autowired
@@ -50,6 +49,7 @@ public class CommentRepositoryTest {
         book.setListAuthors(List.of(author));
         book = bookRepository.save(book);
     }
+
     @AfterEach
     void afterEach() {
         authorRepository.deleteAll();
@@ -100,7 +100,7 @@ public class CommentRepositoryTest {
 
         List<Comment> comments = commentRepository.findCommentsByBook_Id(book.getId());
 
-        assertEquals(comments.size(), 1);
+        assertEquals(1, comments.size());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class CommentRepositoryTest {
         commentRepository.save(newComment);
         List<Comment> comments = commentRepository.findCommentsByBook_Id(book.getId());
 
-        assertEquals(comments.size(), 2);
+        assertEquals(2, comments.size());
     }
 
 }

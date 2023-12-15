@@ -25,6 +25,7 @@ import static ru.marzuev.aston.config.PersistenceConfigForTest.postgres;
 class AuthorRepositoryTest {
     @Autowired
     private AuthorRepository authorRepository;
+
     @BeforeAll
     static void beforeAll() {
         postgres.start();
@@ -42,7 +43,7 @@ class AuthorRepositoryTest {
 
     @Test
     void saveAuthor_whenNormal_thenReturnAuthor() {
-        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10,28));
+        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10, 28));
 
         final Author saveAuthor = authorRepository.save(author);
 
@@ -52,8 +53,8 @@ class AuthorRepositoryTest {
 
     @Test
     void saveAuthor_whenDuplicateName_throwNewException() {
-        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10,28));
-        final Author duplicate = new Author(2L, "Bob", LocalDate.of(1990, 10,28));
+        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10, 28));
+        final Author duplicate = new Author(2L, "Bob", LocalDate.of(1990, 10, 28));
 
         authorRepository.save(author);
         assertThrows(Exception.class, () -> authorRepository.save(duplicate));
@@ -61,9 +62,11 @@ class AuthorRepositoryTest {
 
     @Test
     void updateAuthor_whenNormal_thenReturnAuthor() {
-        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10,28));
-        final Author newAuthor = new Author(1L, "Alex", LocalDate.of(1990, 10,28));
+        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10, 28));
+        final Author newAuthor = new Author(1L, "Alex", LocalDate.of(1990, 10, 28));
+
         authorRepository.save(author);
+
         final Author updateAuthor = authorRepository.save(newAuthor);
 
         newAuthor.setId(updateAuthor.getId());
@@ -72,8 +75,8 @@ class AuthorRepositoryTest {
 
     @Test
     void deleteAuthor_whenNormal_thenDeleteAuthor() {
-        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10,28));
-        final Author newAuthor = new Author(2L, "Alex", LocalDate.of(1990, 10,28));
+        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10, 28));
+        final Author newAuthor = new Author(2L, "Alex", LocalDate.of(1990, 10, 28));
 
         authorRepository.save(author);
         authorRepository.save(newAuthor);
@@ -93,7 +96,7 @@ class AuthorRepositoryTest {
 
     @Test
     void getAuthorById_whenNormal_thenReturnAuthor() {
-        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10,28));
+        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10, 28));
         final Author saveAuthor = authorRepository.save(author);
         final Optional<Author> findAuthor = authorRepository.findById(saveAuthor.getId());
 
@@ -103,8 +106,8 @@ class AuthorRepositoryTest {
 
     @Test
     void getAuthors_whenNormal_thenReturnAuthor() {
-        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10,28));
-        final Author newAuthor = new Author(2L, "Alex", LocalDate.of(1990, 10,28));
+        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10, 28));
+        final Author newAuthor = new Author(2L, "Alex", LocalDate.of(1990, 10, 28));
 
         authorRepository.save(author);
         authorRepository.save(newAuthor);

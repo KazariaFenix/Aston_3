@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BookMapperTest {
+class BookMapperTest {
     private Book book;
     private BookDto bookDto;
 
@@ -19,7 +19,7 @@ public class BookMapperTest {
 
     @BeforeEach
     void setUp() {
-        book = new Book(1l, "Title", "Desc", LocalDate.now());
+        book = new Book(1L, "Title", "Desc", LocalDate.now());
         bookDto = new BookDto("Title", "Desc", LocalDate.now(), null, null);
         bookMapper = new BookMapperImpl();
     }

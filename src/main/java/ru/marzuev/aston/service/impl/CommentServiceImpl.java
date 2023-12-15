@@ -36,6 +36,7 @@ public class CommentServiceImpl implements CommentService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found")
         );
         Comment comment = commentMapper.toComment(0, commentDto);
+
         comment.setBook(book);
 
         Comment saveComment = commentRepository.save(comment);
@@ -49,6 +50,7 @@ public class CommentServiceImpl implements CommentService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment Not Found")
         );
         Comment comment = commentMapper.toComment(commentId, commentDto);
+
         comment.setBook(oldComment.getBook());
 
         return commentMapper.toCommentDto(commentRepository.save(comment));

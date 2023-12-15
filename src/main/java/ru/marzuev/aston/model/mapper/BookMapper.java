@@ -10,6 +10,7 @@ public interface BookMapper {
 
     //@Mapping(source = "listComments", target = "book.listComments")
     BookDto toBookDto(Book book);
+
     @Mapping(target = "listAuthors", source = "bookDto.listAuthors")
     Book toBook(BookDto bookDto);
 }

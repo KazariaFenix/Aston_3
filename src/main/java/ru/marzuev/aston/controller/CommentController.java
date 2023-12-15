@@ -23,7 +23,7 @@ public class CommentController {
 
     @PostMapping
     public CommentDto postComment(@RequestBody CommentDto commentDto,
-                                   @RequestParam(defaultValue = "0") long bookId) throws SQLException {
+                                  @RequestParam(defaultValue = "0") long bookId) throws SQLException {
         if (bookId == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book Id Incorrect");
         }

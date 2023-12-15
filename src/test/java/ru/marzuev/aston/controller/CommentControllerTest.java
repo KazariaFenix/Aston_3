@@ -11,19 +11,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import ru.marzuev.aston.model.dto.AuthorDto;
-import ru.marzuev.aston.model.dto.BookDto;
 import ru.marzuev.aston.model.dto.CommentDto;
-import ru.marzuev.aston.service.BookService;
 import ru.marzuev.aston.service.CommentService;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,10 +27,8 @@ class CommentControllerTest {
     private CommentController controller;
     @Mock
     private CommentService service;
-    private BookDto bookDto;
     private CommentDto commentDto;
     private MockMvc mvc;
-    private String requestBody;
     private ObjectMapper mapper = new ObjectMapper();
 
     @BeforeEach

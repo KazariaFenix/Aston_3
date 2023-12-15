@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import ru.marzuev.aston.model.dto.AuthorDto;
 import ru.marzuev.aston.model.dto.BookDto;
 import ru.marzuev.aston.service.BookService;
@@ -52,6 +51,7 @@ class BookControllerTest {
         Mockito
                 .doReturn(bookDto)
                 .when(service).addBook(bookDto, List.of(1L));
+
         String response = mvc.perform(MockMvcRequestBuilders.post("/books")
                         .param("authors", "1")
                         .content(requestBody)
@@ -71,6 +71,7 @@ class BookControllerTest {
         Mockito
                 .doReturn(bookDto)
                 .when(service).updateBook(bookDto, 1L);
+
         String response = mvc.perform(MockMvcRequestBuilders.put("/books/1")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -89,6 +90,7 @@ class BookControllerTest {
         Mockito
                 .doReturn(bookDto)
                 .when(service).getBookById(1L);
+
         String response = mvc.perform(MockMvcRequestBuilders.get("/books/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -104,6 +106,7 @@ class BookControllerTest {
     @Test
     void getBooksByAuthorId_whenNormal_thenReturnBooks() throws Exception {
         requestBody = "[" + requestBody + "]";
+
         Mockito
                 .doReturn(List.of(bookDto))
                 .when(service).getBooksByAuthorId(1L);

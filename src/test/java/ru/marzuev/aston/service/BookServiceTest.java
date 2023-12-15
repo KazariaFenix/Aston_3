@@ -15,10 +15,8 @@ import ru.marzuev.aston.model.dto.BookTitle;
 import ru.marzuev.aston.model.mapper.BookMapper;
 import ru.marzuev.aston.repository.AuthorRepository;
 import ru.marzuev.aston.repository.BookRepository;
-import ru.marzuev.aston.repository.CommentRepository;
 import ru.marzuev.aston.service.impl.BookServiceImpl;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +39,7 @@ class BookServiceTest {
     BookMapper bookMapper;
 
     @Test
-    void addBook_whenNormal_thenReturnBook() throws SQLException {
+    void addBook_whenNormal_thenReturnBook() {
         final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10, 28));
         final Book book = new Book(0, "Book", "Description", LocalDate.now());
         final BookDto bookDto = new BookDto("Book", "Description", LocalDate.now(),
@@ -73,7 +71,7 @@ class BookServiceTest {
     }
 
     @Test
-    void addBook_whenAuthorNotFound_thenThrowException() throws SQLException {
+    void addBook_whenAuthorNotFound_thenThrowException() {
         final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10, 28));
         final BookDto bookDto = new BookDto("Book", "Description", LocalDate.now(),
                 new ArrayList<>(), new ArrayList<>());
@@ -90,8 +88,7 @@ class BookServiceTest {
     }
 
     @Test
-    void updateBook_whenNormal_thenReturnUpdateBook() throws SQLException {
-        final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10, 28));
+    void updateBook_whenNormal_thenReturnUpdateBook() {
         final Book book = new Book(1L, "Book", "Description", LocalDate.now());
         final BookDto bookDto = new BookDto("Book", "Description", LocalDate.now(),
                 new ArrayList<>(), new ArrayList<>());
@@ -120,7 +117,7 @@ class BookServiceTest {
     }
 
     @Test
-    void updateBook_whenBookNotFound_thenThrowException() throws SQLException {
+    void updateBook_whenBookNotFound_thenThrowException() {
         final Book book = new Book(1, "Book", "Description", LocalDate.now());
         final BookDto bookDto = new BookDto("Book", "Description", LocalDate.now(),
                 new ArrayList<>(), new ArrayList<>());
@@ -137,7 +134,7 @@ class BookServiceTest {
     }
 
     @Test
-    void deleteBook_whenNormal_thenDeleteBookk() throws SQLException {
+    void deleteBook_whenNormal_thenDeleteBookk() {
         final Book book = new Book(1, "Book", "Description", LocalDate.now());
         final long bookId = 1L;
 
@@ -146,7 +143,7 @@ class BookServiceTest {
                 .when(bookRepository).deleteBooksById(bookId);
         Mockito
                 .doReturn(Optional.of(book))
-                        .when(bookRepository).findById(bookId);
+                .when(bookRepository).findById(bookId);
 
         bookService.deleteBook(bookId);
         Mockito.verify(bookRepository, Mockito.times(1))
@@ -154,7 +151,7 @@ class BookServiceTest {
     }
 
     @Test
-    void deleteBook_whenBookNotFound_thenDeleteBook() throws SQLException {
+    void deleteBook_whenBookNotFound_thenDeleteBook() {
         final long bookId = 1L;
         Mockito
                 .when(bookRepository.findById(bookId))
@@ -168,7 +165,7 @@ class BookServiceTest {
     }
 
     @Test
-    void getBookById_whenNormal_thenReturnBook() throws SQLException {
+    void getBookById_whenNormal_thenReturnBook() {
         final long bookId = 1L;
         final Book book = new Book(1, "Book", "Description", LocalDate.now());
         final BookDto bookDto = new BookDto("Book", "Description", LocalDate.now(),
@@ -188,7 +185,7 @@ class BookServiceTest {
     }
 
     @Test
-    void getBookById_whenBookNotFound_thenThrowException() throws SQLException {
+    void getBookById_whenBookNotFound_thenThrowException() {
         final long bookId = 1L;
         Mockito
                 .when(bookRepository.findById(bookId))
@@ -202,7 +199,7 @@ class BookServiceTest {
     }
 
     @Test
-    void getBooksByAuthorId_whenNormal_thenReturnBook() throws SQLException {
+    void getBooksByAuthorId_whenNormal_thenReturnBook() {
         final Author author = new Author(1L, "Bob", LocalDate.of(1990, 10, 28));
         final BookDto bookDto = new BookDto("Book", "Description", LocalDate.now(),
                 new ArrayList<>(), new ArrayList<>());
@@ -229,7 +226,7 @@ class BookServiceTest {
     }
 
     @Test
-    void getBooksByAuthorId_whenAuthorNotFound_thenReturnBook() throws SQLException {
+    void getBooksByAuthorId_whenAuthorNotFound_thenReturnBook() {
         final long authorId = 1;
         Mockito
                 .doReturn(Optional.empty())

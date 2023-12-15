@@ -4,13 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.marzuev.aston.model.Author;
 import ru.marzuev.aston.model.dto.AuthorDto;
-import ru.marzuev.aston.model.dto.BookTitle;
 import ru.marzuev.aston.model.mapper.AuthorMapper;
 import ru.marzuev.aston.model.mapper.AuthorMapperImpl;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

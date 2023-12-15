@@ -11,12 +11,10 @@ import ru.marzuev.aston.model.Book;
 import ru.marzuev.aston.model.Comment;
 import ru.marzuev.aston.model.dto.CommentDto;
 import ru.marzuev.aston.model.mapper.CommentMapper;
-import ru.marzuev.aston.model.mapper.CommentMapperImpl;
 import ru.marzuev.aston.repository.BookRepository;
 import ru.marzuev.aston.repository.CommentRepository;
 import ru.marzuev.aston.service.impl.CommentServiceImpl;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +37,7 @@ class CommentServiceTest {
     CommentMapper commentMapper;
 
     @Test
-    void addComment_whenNormal_thenReturnComment() throws SQLException {
+    void addComment_whenNormal_thenReturnComment() {
         final Book book = new Book(1L, "Title", "Description", LocalDate.now());
         final Optional<Book> optional = Optional.of(book);
         final Comment comment = new Comment(0, "Content");
@@ -68,7 +66,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void addComment_whenBookNotFound_thenThrowException() throws SQLException {
+    void addComment_whenBookNotFound_thenThrowException() {
         final CommentDto commentDto = new CommentDto("Title", "Content");
         final long bookId = 1L;
         Mockito
@@ -82,7 +80,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void updateComment_whenNormal_thenReturnComment() throws SQLException {
+    void updateComment_whenNormal_thenReturnComment() {
         final Book book = new Book(1L, "Title", "Description", LocalDate.now());
         final Comment comment = new Comment(1, "Content");
         final Comment updateComment = new Comment(1, "Content");
@@ -110,7 +108,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void updateComment_whenCommentNotFound_thenThrowException() throws SQLException {
+    void updateComment_whenCommentNotFound_thenThrowException() {
         final CommentDto commentDto = new CommentDto("Title", "Content");
 
         final long commentId = 1L;
@@ -125,7 +123,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void deleteCommentById_whenNormal_thenDeleteComment() throws SQLException {
+    void deleteCommentById_whenNormal_thenDeleteComment() {
         final Comment comment = new Comment(1, "Content");
         final long commentId = 1L;
         Mockito
@@ -139,7 +137,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void deleteCommentById_whenCommentNotFound_thenThrowException() throws SQLException {
+    void deleteCommentById_whenCommentNotFound_thenThrowException() {
         final long commentId = 1L;
         Mockito
                 .doReturn(Optional.empty())
@@ -151,7 +149,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void getCommentsByBook_whenNormal_thenReturnComments() throws SQLException {
+    void getCommentsByBook_whenNormal_thenReturnComments() {
         final Book book = new Book(1L, "Book", "Description", LocalDate.now());
         final long bookId = 1L;
         final Comment comment = new Comment(1, "Content");
@@ -179,7 +177,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void getCommentsByBookId_whenBookNotFound_thenThrowException() throws SQLException {
+    void getCommentsByBookId_whenBookNotFound_thenThrowException() {
         final long bookId = 1L;
         Mockito
                 .when(bookRepository.findById(bookId))
