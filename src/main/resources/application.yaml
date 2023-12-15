@@ -1,6 +1,0 @@
-jdbc.driverClassName: "org.postgresql.Driver"
-jdbc.url: "postgresql://localhost:5432/literature"
-jdbc.username: "sa"
-jdbc.password: "password"
-hibernate.dialect: "org.hibernate.dialect.PostgreSQL10Dialect"
-hibernate.show_sql: true

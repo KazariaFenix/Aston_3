@@ -12,7 +12,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findCommentsByBook_Id(long bookId);
 
-    @Query(value = "SELECT * FROM comments WHERE book_id " +
-            "IN (SELECT ab.book_id FROM authors_books AS ab WHERE ab.author_id = ?)", nativeQuery = true)
-    List<Comment> findCommentByBookByAuthorId(long authorId);
 }

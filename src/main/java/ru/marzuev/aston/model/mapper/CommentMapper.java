@@ -10,5 +10,6 @@ public interface CommentMapper {
     @Mapping(target = "titleBook", source = "comment.book.title")
     CommentDto toCommentDto(Comment comment);
     @Mapping(target = "id", source = "commentId")
+    @Mapping(target = "content", source = "commentDto.content")
     Comment toComment(long commentId, CommentDto commentDto);
 }

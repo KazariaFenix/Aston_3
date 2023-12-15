@@ -1,5 +1,10 @@
 package ru.marzuev.aston.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -7,12 +12,12 @@ import java.util.Objects;
 public class AuthorDto {
     private String name;
     private LocalDate dateBorn;
-    private List<BookDto> booksList;
+    private List<BookTitle> booksList;
 
     public AuthorDto() {
     }
 
-    public AuthorDto(String name, LocalDate dateBorn, List<BookDto> booksList) {
+    public AuthorDto(String name, LocalDate dateBorn, List<BookTitle> booksList) {
         this.name = name;
         this.dateBorn = dateBorn;
         this.booksList = booksList;
@@ -34,11 +39,11 @@ public class AuthorDto {
         this.dateBorn = dateBorn;
     }
 
-    public List<BookDto> getBooksList() {
+    public List<BookTitle> getBooksList() {
         return booksList;
     }
 
-    public void setBooksList(List<BookDto> booksList) {
+    public void setBooksList(List<BookTitle> booksList) {
         this.booksList = booksList;
     }
 

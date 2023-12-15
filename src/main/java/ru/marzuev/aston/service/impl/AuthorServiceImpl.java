@@ -35,7 +35,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto updateAuthor(AuthorDto authorDto, long authorId) {
-        getAuthorById(authorId);
+        repository.findById(authorId).orElseThrow(() -> new IllegalArgumentException("Author Not Found"));
         Author author = repository.save(authorMapper.toAuthor(authorDto));
 
         return authorMapper.toAuthorDto(author);
@@ -43,7 +43,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void deleteAuthor(long authorId) {
-        getAuthorById(authorId);
+        repository.findById(authorId).orElseThrow(() -> new IllegalArgumentException("Author Not Found"));
         repository.deleteById(authorId);
     }
 

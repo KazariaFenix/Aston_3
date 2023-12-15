@@ -1,12 +1,10 @@
 package ru.marzuev.aston.model;
 
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.mapstruct.Named;
-import org.springframework.data.jpa.repository.EntityGraph;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -21,10 +19,10 @@ public class Author {
     private String name;
     @Column(name = "date_born", nullable = false)
     private LocalDate dateBorn;
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
-    @JoinTable(name = "authors_books", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
+    @JoinTable(name = "authors_books", joinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
     private List<Book> listBooks;
 
     public Author() {

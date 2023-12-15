@@ -25,7 +25,7 @@ public class BookController {
     public BookDto postBook(@RequestBody BookDto bookDto,
                             @RequestParam(defaultValue = "null") List<Long> authors) throws SQLException {
         if (authors == null) {
-            throw new IllegalArgumentException("Authors ID Invalid");
+            throw new IllegalArgumentException("Authors Id Invalid");
         }
         return bookService.addBook(bookDto, authors);
     }

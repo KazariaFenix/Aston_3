@@ -28,7 +28,7 @@ public class CommentController {
         return commentService.addComment(commentDto, bookId);
     }
 
-    @PatchMapping("/{commentId}")
+    @PutMapping("/{commentId}")
     public CommentDto putComment(@RequestBody CommentDto commentDto,
                                  @PathVariable long commentId) throws SQLException {
         return commentService.updateComment(commentDto, commentId);

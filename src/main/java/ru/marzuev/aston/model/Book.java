@@ -1,10 +1,10 @@
 package ru.marzuev.aston.model;
 
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -20,8 +20,10 @@ public class Book {
     private String description;
     @Column(nullable = false)
     private LocalDate release;
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listBooks", fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
+    @JoinTable(name = "authors_books", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
     private List<Author> listAuthors;
     @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
@@ -110,5 +112,15 @@ public class Book {
         return Objects.hash(id, title, description, release, listAuthors, listComments);
     }
 
-
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", release=" + release +
+                ", listAuthors=" + listAuthors +
+                ", listComments=" + listComments +
+                '}';
+    }
 }

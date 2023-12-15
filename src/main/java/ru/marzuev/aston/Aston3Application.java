@@ -11,18 +11,16 @@ public class Aston3Application {
 
     public static void main(String[] args) throws LifecycleException {
         Tomcat tomcat = new Tomcat();
-        tomcat.setSilent(true);
         tomcat.getConnector().setPort(8080);
 
         Context tomcatContext = tomcat.addContext("", null);
 
         AnnotationConfigWebApplicationContext applicationContext =
                 new AnnotationConfigWebApplicationContext();
-        applicationContext.scan("ru.marzuev");
         applicationContext.setServletContext(tomcatContext.getServletContext());
+        applicationContext.scan("ru.marzuev");
         applicationContext.refresh();
 
-        // добавляем диспетчер запросов
         DispatcherServlet dispatcherServlet = new DispatcherServlet(applicationContext);
         Wrapper dispatcherWrapper =
                 Tomcat.addServlet(tomcatContext, "dispatcher", dispatcherServlet);

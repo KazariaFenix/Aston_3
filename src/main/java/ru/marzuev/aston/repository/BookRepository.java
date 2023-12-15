@@ -14,5 +14,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(value = "SELECT * FROM books " +
             "WHERE id IN (SELECT ab.book_id FROM authors_books AS ab WHERE ab.author_id = ?)", nativeQuery = true)
     List<Book> findBooksByAuthorId(long authorId);
-    Optional<Book> findBookById(long bookId);
+
+    @Query(value = "DELETE FROM books WHERE id = ?", nativeQuery = true)
+    void deleteBooksById(long bookId);
 }

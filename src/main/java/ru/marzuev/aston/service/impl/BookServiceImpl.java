@@ -11,7 +11,6 @@ import ru.marzuev.aston.repository.BookRepository;
 import ru.marzuev.aston.repository.CommentRepository;
 import ru.marzuev.aston.service.BookService;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +37,8 @@ public class BookServiceImpl implements BookService {
         List<Author> authors = new ArrayList<>();
 
         for (Long authorId : authorsList) {
-            Author author = authorRepository.getById(authorId);
+            Author author = authorRepository.findById(authorId).orElseThrow(
+                    () -> new IllegalArgumentException("Author Not Found"));
             authors.add(author);
         }
         book.setListAuthors(authors);
@@ -61,13 +61,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBook(long bookId) {
-        bookRepository.findBookById(bookId).orElseThrow(() -> new IllegalArgumentException("Book Not Found"));
-        bookRepository.deleteById(bookId);
+        bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Book Not Found"));
+        bookRepository.deleteBooksById(bookId);
     }
 
     @Override
     public BookDto getBookById(long bookId) {
-        Book book = bookRepository.findBookById(bookId).orElseThrow(() -> new IllegalArgumentException("Book Not Found"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("Book Not Found"));
 
         return bookMapper.toBookDto(book);
     }
